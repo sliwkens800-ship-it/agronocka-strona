@@ -80,8 +80,8 @@
         /* Rozwijana lista języków w prawym dolnym rogu */
         .lang-dropdown {
             position: fixed;
-            bottom: 6px;
-            right: 6px;
+            bottom: 1.5rem; 
+            right: 1.5rem;
             z-index: 9999;
         }
         .lang-list {
@@ -128,6 +128,38 @@
         .lang-list.active .lang-btn.inactive-flag,
         .lang-dropdown:hover .lang-btn.inactive-flag {
             display: flex;
+        }
+        
+        /* ROZWIĄZANIE PROBLEMU Z LISTĄ (POZIOMY UKŁAD Z ZŁOTYMI ROMBAMI) */
+        .events-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem 2rem;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .events-list li {
+            position: relative;
+            padding-left: 1.25rem;
+            display: flex;
+            align-items: center;
+            white-space: nowrap; /* Zapobiega łamaniu wiersza między rombem a tekstem */
+        }
+
+        .events-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 10px;
+            height: 10px;
+            background-color: #B89346; /* Idealne złoto, niezależne od systemu */
         }
     </style>
 </head>
@@ -284,14 +316,17 @@
                         Szukasz prestiżowego i eleganckiego miejsca w okolicach Kleszczowa? Nasza przestrzeń została zaprojektowana tak, aby sprostać wymaganiom każdego przyjęcia. Gwarantujemy profesjonalne zaplecze, dużo miejsca do tańca i niepowtarzalny klimat.
                     </p>
                     
-                    <p class="font-bold text-brand-gold mb-6 text-xl" data-i18n="hallListTitle">Idealne miejsce na organizację:</p>
-                    <div class="flex flex-wrap justify-center gap-x-8 gap-y-4 text-gray-300 text-lg">
-                        <span class="flex items-center"><span class="text-brand-gold text-2xl mr-2 leading-none">♦</span> <span data-i18n="event1">Wesela</span></span>
-                        <span class="flex items-center"><span class="text-brand-gold text-2xl mr-2 leading-none">♦</span> <span data-i18n="event2">Komunie Święte</span></span>
-                        <span class="flex items-center"><span class="text-brand-gold text-2xl mr-2 leading-none">♦</span> <span data-i18n="event3">Chrzciny</span></span>
-                        <span class="flex items-center"><span class="text-brand-gold text-2xl mr-2 leading-none">♦</span> <span data-i18n="event4">Imprezy Firmowe</span></span>
-                        <span class="flex items-center"><span class="text-brand-gold text-2xl mr-2 leading-none">♦</span> <span data-i18n="event5">Stypy</span></span>
-                    </div>
+                    <p class="font-bold text-brand-gold mb-8 text-xl" data-i18n="hallListTitle">Idealne miejsce na organizację:</p>
+                    
+                    <!-- LISTA W POZIOMYM UKŁADZIE (ZŁOTE ROMBY W CSS) -->
+                    <ul class="events-list text-gray-300 text-lg">
+                        <li><span data-i18n="event1">Wesela</span></li>
+                        <li><span data-i18n="event2">Komunie Święte</span></li>
+                        <li><span data-i18n="event3">Chrzciny</span></li>
+                        <li><span data-i18n="event4">Imprezy Firmowe</span></li>
+                        <li><span data-i18n="event5">Stypy</span></li>
+                    </ul>
+
                 </div>
 
                 <!-- Galeria Sali Bankietowej -->
@@ -378,7 +413,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm text-gray-400 uppercase tracking-widest font-bold mb-1" data-i18n="addressLabel">Adres Obiektu</p>
-                                    <p class="text-xl text-white font-serif">Żłobnica 74b</p>
+                                    <p class="text-xl text-white font-serif">Żłobnica 74a</p>
                                     <p class="text-gray-400" data-i18n="addressCity">97-410 Kleszczów, woj. łódzkie</p>
                                 </div>
                             </div>
@@ -395,13 +430,13 @@
                                 scrolling="no" 
                                 marginheight="0" 
                                 marginwidth="0" 
-                                src="https://maps.google.com/maps?q=Żłobnica%2074b,%20Kleszczów&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                                src="https://maps.google.com/maps?q=Żłobnica%2074a,%20Kleszczów&t=&z=14&ie=UTF8&iwloc=&output=embed"
                                 style="border:0;" 
                                 allowfullscreen="" 
                                 loading="lazy">
                             </iframe>
                         </div>
-                        <a href="https://maps.google.com/?q=Żłobnica+74b,+Kleszczów" target="_blank" class="mt-6 flex items-center justify-center bg-brand-gold text-brand-dark font-bold py-4 px-6 rounded hover:bg-white transition text-center group">
+                        <a href="https://maps.google.com/?q=Żłobnica+74a,+Kleszczów" target="_blank" class="mt-6 flex items-center justify-center bg-brand-gold text-brand-dark font-bold py-4 px-6 rounded hover:bg-white transition text-center group">
                             <svg class="w-5 h-5 mr-2 group-hover:animate-bounce" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12 1.586l-4 4v12.828l4-4V1.586zM3.707 3.293A1 1 0 002 4v10a1 1 0 00.293.707L6 18.414V5.586L3.707 3.293zM17.707 5.293L14 1.586v12.828l2.293 2.293A1 1 0 0018 16V6a1 1 0 00-.293-.707z" clip-rule="evenodd"></path></svg>
                             <span data-i18n="mapBtn">Wyznacz trasę w Google Maps</span>
                         </a>
@@ -411,8 +446,8 @@
             </div>
         </section>
 
-        <!-- Stopka -->
-        <footer class="bg-brand-darker text-gray-500 py-6 text-center text-sm border-t border-gray-800">
+        <!-- Stopka z dużym odstępem na dole, by panel flag/dostępności nic nie zasłaniał -->
+        <footer class="bg-brand-darker text-gray-500 py-6 pb-28 md:pb-10 text-center text-sm border-t border-gray-800">
             <p data-i18n="footer">&copy; 2026 Agronocka. Wszelkie prawa zastrzeżone.</p>
         </footer>
 
