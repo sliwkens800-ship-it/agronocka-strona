@@ -94,7 +94,7 @@
             border-radius: 9999px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             border: 1px solid rgba(184, 147, 70, 0.4);
-            max-height: 52px; /* Domyślnie widać tylko aktywną flagę na dole */
+            max-height: 52px; /* Domyślnie widać tylko aktywną flagę на dole */
             overflow: hidden;
             transition: max-height 0.3s ease-in-out;
         }
@@ -406,6 +406,17 @@
                                 </div>
                             </div>
 
+                            <!-- E-mail -->
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center mr-6 shrink-0 mt-1">
+                                    <svg class="w-6 h-6 text-brand-gold" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400 uppercase tracking-widest font-bold mb-2" data-i18n="emailLabel">E-mail</p>
+                                    <a href="mailto:kontakt@agronocka.com" class="block text-2xl font-bold text-brand-gold hover:text-white transition">kontakt@agronocka.com</a>
+                                </div>
+                            </div>
+
                             <!-- Adres -->
                             <div class="flex items-start">
                                 <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center mr-6 shrink-0 mt-1">
@@ -552,6 +563,7 @@
                 contactTitle: "Skontaktuj się z nami",
                 contactDesc: "Masz pytania dotyczące noclegów lub chcesz obejrzeć salę? Zadzwoń do nas, chętnie odpowiemy na wszystkie pytania.",
                 phonesLabel: "Telefony",
+                emailLabel: "E-mail",
                 addressLabel: "Adres Obiektu",
                 addressCity: "97-410 Kleszczów, woj. łódzkie",
                 mapBtn: "Wyznacz trasę w Google Maps",
@@ -609,6 +621,7 @@
                 contactTitle: "Зв'яжіться з нами",
                 contactDesc: "Маєте питання щодо проживання чи хочете оглянути зал? Зателефонуйте нам, ми з радістю відповімо на всі запитання.",
                 phonesLabel: "Телефони",
+                emailLabel: "E-mail",
                 addressLabel: "Адреса об'єкта",
                 addressCity: "97-410 Kleszczów, Łódź Voivodeship",
                 mapBtn: "Прокласти маршрут у Google Maps",
@@ -666,6 +679,7 @@
                 contactTitle: "Contact Us",
                 contactDesc: "Do you have questions about accommodation or want to see the hall? Call us, we will gladly answer all questions.",
                 phonesLabel: "Phones",
+                emailLabel: "E-mail",
                 addressLabel: "Object Address",
                 addressCity: "97-410 Kleszczów, Łódź Voivodeship",
                 mapBtn: "Get directions in Google Maps",
