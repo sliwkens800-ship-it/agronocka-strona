@@ -316,7 +316,7 @@
                 <div id="pokoje-expand-container" class="md:hidden text-center mt-10">
                     <button id="pokoje-expand-btn" class="bg-transparent border border-brand-gold text-brand-dark py-3 px-8 rounded font-bold flex items-center justify-center mx-auto hover:bg-brand-gold hover:text-white transition">
                         <span data-i18n="showMore">Pokaż więcej</span>
-                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 ml-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                 </div>
                 <!-- KONIEC GALERII POKOJE -->
@@ -487,7 +487,7 @@
                 <div id="sala-expand-container" class="md:hidden text-center mt-10">
                     <button id="sala-expand-btn" class="bg-transparent border border-brand-gold text-brand-gold py-3 px-8 rounded font-bold flex items-center justify-center mx-auto hover:bg-brand-gold hover:text-brand-dark transition">
                         <span data-i18n="showMore">Pokaż więcej</span>
-                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg class="w-5 h-5 ml-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
                 </div>
                 <!-- KONIEC NOWEJ GALERII -->
@@ -764,7 +764,8 @@
                 wcagContrast: "Wysoki kontrast",
                 wcagGray: "Skala szarości",
                 wcagFont: "Powiększ tekst",
-                showMore: "Pokaż więcej"
+                showMore: "Pokaż więcej",
+                showLess: "Zwiń"
             },
             ua: {
                 title: "Agronocka - Житло для робітників та Банкетний зал",
@@ -826,7 +827,8 @@
                 wcagContrast: "Високий контраст",
                 wcagGray: "Відтінки сірого",
                 wcagFont: "Збільшити текст",
-                showMore: "Показати більше"
+                showMore: "Показати більше",
+                showLess: "Згорнути"
             },
             en: {
                 title: "Agronocka - Worker Accommodation and Banquet Hall",
@@ -888,7 +890,8 @@
                 wcagContrast: "High contrast",
                 wcagGray: "Grayscale",
                 wcagFont: "Enlarge text",
-                showMore: "Show more"
+                showMore: "Show more",
+                showLess: "Show less"
             }
         };
 
@@ -1132,42 +1135,86 @@
         window.addEventListener('resize', updateSalaTrack);
 
         const salaExpandBtn = document.getElementById('sala-expand-btn');
-        const salaExpandContainer = document.getElementById('sala-expand-container');
-
         if (salaExpandBtn) {
+            let isExpandedSala = false;
+            const salaExpandText = salaExpandBtn.querySelector('span');
+            const salaExpandIcon = salaExpandBtn.querySelector('svg');
+            
             salaExpandBtn.addEventListener('click', () => {
-                let newlyShown = 0;
-                const mobileHiddenItems = document.querySelectorAll('.sala-item.mobile-hidden');
+                const lang = localStorage.getItem('agronocka_lang') || 'pl';
+                
+                if (!isExpandedSala) {
+                    let newlyShown = 0;
+                    const mobileHiddenItems = document.querySelectorAll('.sala-item.mobile-hidden');
 
-                for (let i = 0; i < mobileHiddenItems.length; i++) {
-                    mobileHiddenItems[i].classList.remove('mobile-hidden');
-                    newlyShown++;
-                    if (newlyShown === 3) break;
-                }
+                    for (let i = 0; i < mobileHiddenItems.length; i++) {
+                        mobileHiddenItems[i].classList.remove('mobile-hidden');
+                        newlyShown++;
+                        if (newlyShown === 3) break;
+                    }
 
-                if (document.querySelectorAll('.sala-item.mobile-hidden').length === 0) {
-                    salaExpandContainer.style.display = 'none';
+                    if (document.querySelectorAll('.sala-item.mobile-hidden').length === 0) {
+                        isExpandedSala = true;
+                        salaExpandText.setAttribute('data-i18n', 'showLess');
+                        salaExpandText.innerText = translations[lang]['showLess'];
+                        salaExpandIcon.style.transform = 'rotate(180deg)';
+                    }
+                } else {
+                    // Zwinięcie z powrotem - zostawiamy tylko pierwsze 3
+                    const allSalaItems = document.querySelectorAll('.sala-item');
+                    for (let i = 3; i < allSalaItems.length; i++) {
+                        allSalaItems[i].classList.add('mobile-hidden');
+                    }
+                    isExpandedSala = false;
+                    salaExpandText.setAttribute('data-i18n', 'showMore');
+                    salaExpandText.innerText = translations[lang]['showMore'];
+                    salaExpandIcon.style.transform = 'rotate(0deg)';
+                    
+                    // Płynne przewinięcie do początku sekcji sali
+                    document.getElementById('sala').scrollIntoView({ behavior: 'smooth' });
                 }
             });
         }
 
         // --- ROZWIJANIE GALERII POKOJE NA URZĄDZENIACH MOBILNYCH ---
         const pokojeExpandBtn = document.getElementById('pokoje-expand-btn');
-        const pokojeExpandContainer = document.getElementById('pokoje-expand-container');
-
         if (pokojeExpandBtn) {
+            let isExpandedPokoje = false;
+            const pokojeExpandText = pokojeExpandBtn.querySelector('span');
+            const pokojeExpandIcon = pokojeExpandBtn.querySelector('svg');
+
             pokojeExpandBtn.addEventListener('click', () => {
-                let newlyShown = 0;
-                const mobileHiddenItems = document.querySelectorAll('.pokoje-item.mobile-hidden');
+                const lang = localStorage.getItem('agronocka_lang') || 'pl';
+                
+                if (!isExpandedPokoje) {
+                    let newlyShown = 0;
+                    const mobileHiddenItems = document.querySelectorAll('.pokoje-item.mobile-hidden');
 
-                for (let i = 0; i < mobileHiddenItems.length; i++) {
-                    mobileHiddenItems[i].classList.remove('mobile-hidden');
-                    newlyShown++;
-                    if (newlyShown === 3) break;
-                }
+                    for (let i = 0; i < mobileHiddenItems.length; i++) {
+                        mobileHiddenItems[i].classList.remove('mobile-hidden');
+                        newlyShown++;
+                        if (newlyShown === 3) break;
+                    }
 
-                if (document.querySelectorAll('.pokoje-item.mobile-hidden').length === 0) {
-                    pokojeExpandContainer.style.display = 'none';
+                    if (document.querySelectorAll('.pokoje-item.mobile-hidden').length === 0) {
+                        isExpandedPokoje = true;
+                        pokojeExpandText.setAttribute('data-i18n', 'showLess');
+                        pokojeExpandText.innerText = translations[lang]['showLess'];
+                        pokojeExpandIcon.style.transform = 'rotate(180deg)';
+                    }
+                } else {
+                    // Zwinięcie z powrotem - zostawiamy tylko pierwsze 3
+                    const allPokojeItems = document.querySelectorAll('.pokoje-item');
+                    for (let i = 3; i < allPokojeItems.length; i++) {
+                        allPokojeItems[i].classList.add('mobile-hidden');
+                    }
+                    isExpandedPokoje = false;
+                    pokojeExpandText.setAttribute('data-i18n', 'showMore');
+                    pokojeExpandText.innerText = translations[lang]['showMore'];
+                    pokojeExpandIcon.style.transform = 'rotate(0deg)';
+                    
+                    // Płynne przewinięcie do początku sekcji pokoi
+                    document.getElementById('pokoje').scrollIntoView({ behavior: 'smooth' });
                 }
             });
         }
